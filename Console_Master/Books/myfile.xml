@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ArrayOfBook xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Book>
+    <Guid>1cc1e40a-6d83-497d-93ca-c2d1e12e7bde</Guid>
+    <Title>Darkness</Title>
+    <Author>Reaper</Author>
+    <Description>Other World Encounters</Description>
+    <ReleaseDate>30/06/08</ReleaseDate>
+  </Book>
+</ArrayOfBook>
