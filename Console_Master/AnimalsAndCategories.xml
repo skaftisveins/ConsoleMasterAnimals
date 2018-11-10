@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<AnimalsCategory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Animals>
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="Hnodri" Type="Hamster" Breed="Fur" Birthdate="2009-09-09T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="Mía" Type="Cat" Breed="Chiuhuahua" Birthdate="2010-09-09T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="Hekla" Type="Dog" Breed="Bordercollie" Birthdate="2009-09-09T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="Spói" Type="Bird" Breed="Anchor" Birthdate="2001-01-01T00:00:00+00:00" />
+  </Animals>
+  <Categories>
+    <Categories ID="00000000-0000-0000-0000-000000000000" Name="Cat3">
+      <Animals />
+    </Categories>
+    <Categories ID="00000000-0000-0000-0000-000000000000" Name="Cats">
+      <Animals />
+    </Categories>
+  </Categories>
+</AnimalsCategory>

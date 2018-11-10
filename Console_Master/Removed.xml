@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<AnimalsCategory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Animals>
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="K" Breed="G" Birthdate="2001-12-01T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="Test" Breed="Tester" Birthdate="2001-01-01T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="test" Breed="test" Birthdate="2000-10-10T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="hmm" Breed="naa" Birthdate="2000-10-10T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="" Type="Kobra" Breed="Reptile" Birthdate="2009-05-05T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="" Type="Cat" Breed="Chihuahua" Birthdate="2011-09-09T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="Hekla" Type="Dog" Breed="Bordercollie" Birthdate="2010-08-08T00:00:00+00:00" />
+    <Animals ID="00000000-0000-0000-0000-000000000000" Name="Test" Type="Test" Breed="Test" Birthdate="2001-01-01T00:00:00+00:00" />
+  </Animals>
+  <Categories />
+</AnimalsCategory>

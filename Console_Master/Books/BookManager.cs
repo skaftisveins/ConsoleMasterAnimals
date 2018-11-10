@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -11,49 +8,8 @@ namespace Console_Master.Books
     public static class BookManager
     {
         public static string filePath = "../../Books/myfile.xml";
+        public static List<Book> books = new List<Book>();
 
-        public static void InitBookManager()
-        {
-            #region Bookmanager Menu
-
-            ConsoleKeyInfo input;
-            do
-            {
-                Console.WriteLine("Bookmanager initialized...");
-                Utils.LogCyan("| A: Add | C: Create new list | D: Delete | E: Edit | L: List |S: Search | ESC: Back to Menu | ");
-
-                input = Console.ReadKey();
-                Utils.clrScreen();
-
-                switch (input.Key.ToString())
-                {
-                    case "A":
-                        // AddBook();
-                        AddNewBook();
-                        break;
-                    case "C":
-                        Console.WriteLine("not implemented");
-                        break;
-                    case "D":
-                        Console.WriteLine("not implemented");
-                        break;
-                    case "E":
-                        // EditBook(filePath, input);
-                        break;
-                    case "L":
-                        ReadBooks();
-                        break;
-                    case "S":
-                        Console.WriteLine("not implemented");
-                        break;
-                    case "ESC":
-                        Environment.Exit(0);
-                        break;
-                }
-
-            } while (input.Key != ConsoleKey.Escape);
-            #endregion
-        }
 
         public static void AddBook()
         {
@@ -64,22 +20,92 @@ namespace Console_Master.Books
             // Serializa ný gögn í straum
             FileStream readStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             XmlSerializer bookListSerializer = new XmlSerializer(typeof(List<Book>));
-            Guid guid1 = Guid.NewGuid();
-            Book book1 = new Book() { Guid = guid1, Title = "Darkness", Author = "Reaper", Description = "Other World Encounters", ReleaseDate = "30/06/08" };
-            List<Book> books = new List<Book> { book1 };
+            Guid guid = Guid.NewGuid();
+            Book book = new Book() { Guid = guid, Title = "Darkness", Author = "Reaper", Description = "Other World Encounters", ReleaseDate = "30/06/08" };
+            List<Book> books = new List<Book> { book };
             readStream.SetLength(0);
             bookListSerializer.Serialize(readStream, books);
             readStream.Close();
         }
 
-        public static void ReadBooks()
+        public static void AddNewBook()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(List<Book>));
+                Console.WriteLine("Please input the name of the book you wish to add: ");
+                string bookName = Utils.GetInput("input name of book");
+                Console.WriteLine("Please input the author: ");
+                string bookAuthor = Utils.GetInput("input author");
+                Console.WriteLine("Please input the description for the book: ");
+                string bookDescription = Utils.GetInput("input description of the book");
+                Console.WriteLine("Please input the release date for the book: ");
+                string bookReleaseDate = Utils.GetInput("input release date");
+            Guid guid = Guid.NewGuid();
+            Book book = new Book() { Guid = guid, Title = bookName, Author = bookAuthor, Description = bookDescription, ReleaseDate = bookReleaseDate };
+
+            bool xmlEmpty = false;
+            if(xmlEmpty == true)
+            {
+                FileStream write = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                XmlSerializer bookListSerializer = new XmlSerializer(typeof(List<Book>));
+                write.Close();
+            }
+            List<Book> books;
+            FileStream readStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            if (readStream.Length != 0)
+            {
+                books = (List<Book>)xs.Deserialize(readStream);
+                books.Add(book);
+                readStream.Close();
+            }
+            else
+            {
+                books = new List<Book>() { book };
+            }
+
+            FileStream writeStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+            xs.Serialize(writeStream, books);
+            writeStream.Close();
+        }
+
+        public static void EditBook()
+        {
+            //List<Book> deserializeBookList = Deserialize()
+            //deserializeBookList.SetLength(0);
+            FileStream writeStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write);
+            XmlSerializer xs = new XmlSerializer(typeof(List<Book>));
+            List<Book> books = new List<Book>();
+            xs.Serialize(writeStream, books);
+            bool isSelected = false;
+            Console.WriteLine("Please write the name of the book you wish to edit: ");
+            string tempName = Utils.GetInput("");
+            Console.Write("Now editing: " + tempName);
+            foreach (var b in books)
+            {
+                Console.WriteLine($"Name: {b.Title}{isSelected}");
+                Console.WriteLine($"Author: {b.Author}{isSelected}");
+                Console.WriteLine($"Description: {b.Description}{isSelected}");
+                Console.WriteLine($"Release Date: {b.ReleaseDate}{isSelected}");
+                Console.WriteLine();
+            }
+
+            if (isSelected == true)
+            {
+                Console.WriteLine($"Please edit {tempName}: (.append mode)");
+            }
+
+            writeStream.Close();
+            Console.ReadKey();
+        }
+
+        public static void ListAllBooksAndInfo()
         {
             // lesa það sem er til úr file(deserialize)
             Stream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);
             XmlSerializer xs = new XmlSerializer(typeof(List<Book>));
-            List<Book> myBooks = (List<Book>)xs.Deserialize(stream);
+            List<Book> Books = (List<Book>)xs.Deserialize(stream);
             stream.Close();
-            foreach(var b in myBooks)
+            foreach(var b in Books)
             {
                 Console.WriteLine($"Name: {b.Title}");
                 Console.WriteLine($"Author: {b.Author}");
@@ -87,79 +113,43 @@ namespace Console_Master.Books
                 Console.WriteLine($"Release Date: {b.ReleaseDate}");
                 Console.WriteLine();
             }
+            Console.ReadKey();
         }
 
-        public static void EditBook(List<Book> myBooks, string filePath, string userInput)
+        public static void ReadBook()
         {
-            bool isSelected = false;
-            Console.WriteLine("Please write name of book to edit:");
-            string tempName = filePath + Console.ReadLine();
-            Console.WriteLine();
-            Console.WriteLine("Now editing: " + tempName);
-            Console.WriteLine("| 1. Name | 2. Author | 3. Description | 4. Release Date |");
-            ConsoleKeyInfo input;
-            input = Console.ReadKey();
-            switch (input.Key.ToString())
+            Stream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);
+            XmlSerializer xs = new XmlSerializer(typeof(List<Book>));
+            FileStream readStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);
+            List <Book> myBooks = (List<Book>)xs.Deserialize(stream);
+            foreach (var b in myBooks)
             {
-                case "1":
-                    foreach (var b in myBooks)
-                        Console.WriteLine($"Name: {b.Title}, {isSelected}");
-                    break;
-                case "2":
-                    foreach (var b in myBooks)
-                        Console.WriteLine($"Author: {b.Author},{isSelected}");
-                    break;
-                case "3":
-                    foreach (var b in myBooks)
-                        Console.WriteLine($"Description: {b.Description},{isSelected}");
-                    break;
-                case "4":
-                    foreach (var b in myBooks)
-                        Console.WriteLine($"Release Date: {b.ReleaseDate},{isSelected}");
-                    break;
-            }
-            if (isSelected == true)
-            { 
+                Console.WriteLine($"Name: {b.Title}");
+                Console.WriteLine($"Author: {b.Author}");
+                Console.WriteLine($"Description: {b.Description}");
+                Console.WriteLine($"Release Date: {b.ReleaseDate}");
                 Console.WriteLine();
-                Console.WriteLine("Please edit current book now: (.append mode)");
             }
-            string tempEdit = Console.ReadLine();
-            EditBook(myBooks, tempName, tempEdit);
-            FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.ReadWrite);
-            StreamWriter sw = new StreamWriter(fs);
-            string timeStamp = DateTime.Now.ToString();
-            sw.WriteLine(userInput);
-            sw.Close();
-            fs.Close();
+            Console.WriteLine("Please write the name of the book you wish to read: ");
+            string bookName = Utils.GetInput("input name of book");
+            Book book = new Book() { Title = bookName };
+            readStream.Close();
+            Console.ReadKey();
         }
+    }
 
-        #region Book class and functions
-        public class Book
-        {
-            public Guid Guid { get; set; }
-            public string Title { get; set; }
-            public string Author { get; set; }
-            public string Description { get; set; }
-            public string ReleaseDate { get; set; }
-        }
-
-        public static Book CreateBook(string Title, Guid guid)
-        {
-            string title = Title;
-            Guid Guid = guid;
-            return new Book { Title = title, Guid = guid };
-        }
-
-        public static Book AddNewBook()
-        {
-            Console.WriteLine("Please input the name of the book you wish to add");
-            Console.WriteLine();
-            string bookName = Utils.GetUserInput("Please input book name: ");
-            Guid guid = Guid.NewGuid();
-            CreateBook(bookName, guid);
-            return CreateBook(bookName, guid);
-        } 
-        #endregion
-        
+    [XmlRoot("Book")]
+    public class Book
+    {
+        [XmlAttribute]
+        public Guid Guid { get; set; }
+        [XmlAttribute]
+        public string Title { get; set; }
+        [XmlAttribute]
+        public string Author { get; set; }
+        [XmlAttribute]
+        public string Description { get; set; }
+        [XmlAttribute]
+        public string ReleaseDate { get; set; }
     }
 }

@@ -1,10 +1,17 @@
 <?xml version="1.0"?>
 <ArrayOfBook xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Book>
-    <Guid>1cc1e40a-6d83-497d-93ca-c2d1e12e7bde</Guid>
+    <Guid>2a577bb1-e9f0-4158-a106-d63cd4b25097</Guid>
     <Title>Darkness</Title>
     <Author>Reaper</Author>
     <Description>Other World Encounters</Description>
     <ReleaseDate>30/06/08</ReleaseDate>
+  </Book>
+  <Book>
+    <Guid>a13e25a7-b07a-4d94-ae47-b2b09ddc6f48</Guid>
+    <Title>hh</Title>
+    <Author>hh</Author>
+    <Description>hh</Description>
+    <ReleaseDate>hh</ReleaseDate>
   </Book>
 </ArrayOfBook>
